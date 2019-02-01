@@ -28,7 +28,7 @@ RUN chmod +x /home/chown.sh
 
 
 
-RUN apt-get -qq install dos2unix && dos2unix /home/start.sh && dos2unix /home/chown.sh && apt-get -qq remove --purge dos2unix && apt-get -qq clea
+RUN apt-get -qq install dos2unix && dos2unix /home/start.sh && dos2unix /home/chown.sh && apt-get -qq remove --purge dos2unix && apt-get -qq clean
 
 
 
