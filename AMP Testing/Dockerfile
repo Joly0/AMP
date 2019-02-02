@@ -18,10 +18,10 @@ RUN chown AMP:AMP -R /home
 
 
 
-RUN apt-get -qq update && apt-get -qq upgrade &&  apt-get -qq --no-install-recommends install software-properties-common dirmngr apt-transport-https gnupg2 locales-all procps
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends upgrade &&  apt-get -qq --no-install-recommends install software-properties-common dirmngr apt-transport-https gnupg2 locales-all procps
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
-RUN apt-get update
+RUN apt-get -qq --no-install-recommends update
 RUN apt-get -qq --no-install-recommends install ampinstmgr
 
 
