@@ -1,25 +1,18 @@
-FROM openjdk:8u181-jdk-slim
+FROM debian:stretch-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
-
-
-
-RUN echo "deb http://ftp.de.debian.org/debian stretch main" >> /etc/apt/sources.list
-
-
+ENV LANG C.UTF-8
 
 RUN useradd -d /home/AMP -m AMP -s /bin/bash
 RUN usermod --password test AMP
 RUN chown AMP:AMP -R /home
 
 
-
-
-
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install software-properties-common dirmngr apt-transport-https gnupg2 locales-all procps
+RUN mkdir -p /usr/share/man/man1
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
 
 
@@ -31,11 +24,9 @@ COPY chown.sh /home/chown.sh
 RUN chmod +x /home/chown.sh
 
 
-
-RUN apt-get -qq --no-install-recommends install dos2unix
 RUN dos2unix /home/start.sh && dos2unix /home/chown.sh
-RUN apt-get -qq --purge remove dos2unix
-RUN apt-get --purge autoremove 
+RUN apt-get -qq --purge remove dos2unix gnupg2
+RUN apt-get -qq --purge autoremove 
 
 
 
