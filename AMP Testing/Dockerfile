@@ -1,5 +1,3 @@
-
-
 FROM openjdk:8u181-jdk-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -18,10 +16,9 @@ RUN chown AMP:AMP -R /home
 
 
 
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends upgrade &&  apt-get -qq --no-install-recommends install software-properties-common dirmngr apt-transport-https gnupg2 locales-all procps
+RUN apt-get -qq --no-install-recommends install software-properties-common dirmngr apt-transport-https gnupg2 locales-all procps
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
-RUN apt-get -qq --no-install-recommends update
 RUN apt-get -qq --no-install-recommends install ampinstmgr
 
 
@@ -38,13 +35,11 @@ RUN chmod +x /home/chown.sh
 RUN apt-get -qq --no-install-recommends install dos2unix
 RUN dos2unix /home/start.sh && dos2unix /home/chown.sh
 RUN apt-get -qq --purge remove dos2unix
-RUN apt-get -qq --purge autoremove 
+RUN apt-get --purge autoremove 
 
 
 
-
-
-RUN apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+RUN apt-get -qq clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 
 VOLUME ["/home"]
