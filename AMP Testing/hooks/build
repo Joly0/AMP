@@ -1,9 +1,9 @@
 #! /bin/bash
 
-NAME   := Joly0/AMP
-TAG    := $$(git log -1 --pretty=%!H(MISSING))
-IMG    := ${NAME}:${TAG}
-LATEST := ${NAME}:latest
+DOCKER_REPO   := Joly0/AMP
+CACHE_TAG    := $$(git log -1 --pretty=%!H(MISSING))
+IMAGE_NAME    := ${DOCKER_REPO}:${CACHE_TAG}
+
  
 build:
-@docker build -t ${IMG} .
+@docker build -t ${IMAGE_NAME} .
