@@ -1,7 +1,0 @@
-NAME   := Joly0/AMP
-TAG    := $$(git log -1 --pretty=%!H(MISSING))
-IMG    := ${NAME}:${TAG}
-LATEST := ${NAME}:latest
- 
-build:
-  @docker build -t ${IMG} .
