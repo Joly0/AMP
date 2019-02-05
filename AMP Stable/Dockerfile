@@ -9,21 +9,21 @@ RUN mkdir /usr/share/man/man1 && \
     apt-get -qq update && \
     apt-get -qq --no-install-recommends install \
     	coreutils \
-	    tmux \
-	    socat \
-	    unzip \
-	    git \
-	    wget \
-	    libsqlite3-0 \
-	    ca-certificates \
-	    lib32gcc1 \
-	    lib32stdc++6 \
-      software-properties-common \
-      dirmngr \
-      apt-transport-https \
-      openjdk-8-jre-headless \
-      gnupg2 \
-      dos2unix && \
+	tmux \
+	socat \
+	unzip \
+	git \
+	wget \
+	libsqlite3-0 \
+	ca-certificates \
+	lib32gcc1 \
+	lib32stdc++6 \
+      	software-properties-common \
+      	dirmngr \
+      	apt-transport-https \
+      	openjdk-8-jre-headless \
+      	gnupg2 \
+      	dos2unix && \
     apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key && \
     apt-add-repository "deb http://repo.cubecoders.com/ debian/" && \
     apt-get update && \
@@ -34,8 +34,8 @@ RUN mkdir /usr/share/man/man1 && \
 
 COPY start.sh /home/start.sh && \
      chown.sh /home/chown.sh
-RUN chmod +x /home/start.sh && \
-    chmod +x /home/chown.sh
+RUN  chmod +x /home/start.sh && \
+     chmod +x /home/chown.sh
 
 
 RUN apt-get -qq install dos2unix && \
