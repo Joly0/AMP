@@ -32,10 +32,10 @@ RUN mkdir /usr/share/man/man1 && \
     rm -rf /var/lib/apt/lists/*
 
 
-COPY "start.sh" "/home/start.sh" && \
-     "chown.sh" "/home/chown.sh"
-RUN  chmod +x "/home/start.sh" && \
-     chmod +x "/home/chown.sh"
+COPY start.sh" "/home/start.sh
+COPY chown.sh" "/home/chown.sh
+RUN  chmod +x "/home/start.sh
+RUN  chmod +x "/home/chown.sh
 
 
 RUN apt-get -qq install dos2unix && \
