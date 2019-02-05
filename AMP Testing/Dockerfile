@@ -4,7 +4,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG C.UTF-8
 
 RUN useradd -d /home/AMP -m AMP -s /bin/bash
-RUN usermod --password test AMP
 RUN chown AMP:AMP -R /home
 
 
@@ -18,22 +17,19 @@ RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recom
 
 COPY start.sh /home/start.sh
 RUN chmod +x /home/start.sh
-
-
 COPY chown.sh /home/chown.sh
 RUN chmod +x /home/chown.sh
 
 
 RUN dos2unix /home/start.sh && dos2unix /home/chown.sh
 RUN apt-get -qq --purge remove dos2unix gnupg2
-RUN apt-get -qq --purge autoremove 
+RUN apt-get -qq --purge autoremove
+RUN apt-get -qq --purge autoclean
 
 
 
-RUN apt-get -qq clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-
-VOLUME ["/home"]
 
 EXPOSE 8080
 
