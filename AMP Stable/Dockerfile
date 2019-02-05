@@ -27,7 +27,7 @@ RUN mkdir /usr/share/man/man1 && \
     apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key && \
     apt-add-repository "deb http://repo.cubecoders.com/ debian/" && \
     apt-get update && \
-    apt-get -qq install ampinstmgr --no-install-recommends && \
+    apt-get -qq install ampinstmgr --no-install-recommends --install-suggests && \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/*
 
