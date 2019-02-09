@@ -7,5 +7,3 @@ echo $new_tag
 git tag $new_tag
 
 git push origin $new_tag
-
-docker build -it "Joly0/AMP:$new_tag" .
