@@ -1,0 +1,10 @@
+
+version: '3.3'
+
+services:
+
+sut:
+  build: .
+  command: run_tests.sh
+  environment:
+    - SOURCE_BRANCH
