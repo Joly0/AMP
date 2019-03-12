@@ -22,9 +22,9 @@ RUN chmod +x /home/chown.sh
 
 
 RUN dos2unix /home/start.sh && dos2unix /home/chown.sh
-RUN apt-get -qq --purge remove dos2unix gnupg2
-RUN apt-get -qq --purge autoremove
-RUN apt-get -qq --purge autoclean
+RUN apt-get -qq remove dos2unix gnupg2
+RUN apt-get -qq autoremove
+RUN apt-get -qq autoclean
 
 
 
