@@ -11,6 +11,12 @@ if [ -e "/home/AMP/test" ]
 
 	then
 	
+		apt update
+		
+		apt upgrade
+		
+		ampinstmgr upgradeall
+	
 		su - AMP -c "chown AMP:AMP -R /home/AMP"
 		
 		su - AMP -c "ampinstmgr startinstance ADS01 & disown"
