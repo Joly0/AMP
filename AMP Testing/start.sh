@@ -11,7 +11,7 @@ if [ -e "/home/AMP/test" ]
 
 	then
 	
-		apt-get --only-upgrade install atop
+		apt-get --only-upgrade install ampinstmgr
 		
 		su - root -c "ampinstmgr upgradeall & disown"
 	
