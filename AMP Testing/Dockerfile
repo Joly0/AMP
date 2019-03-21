@@ -14,6 +14,9 @@ RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
 
+RUN apt-get install -y supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 
 COPY start.sh /home/start.sh
 RUN chmod +x /home/start.sh
@@ -37,4 +40,4 @@ VOLUME ["/home"]
 
 EXPOSE 8080
 
-ENTRYPOINT ["/home/start.sh"]
+CMD ["/usr/bin/supervisord"]
