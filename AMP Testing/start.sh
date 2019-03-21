@@ -15,7 +15,7 @@ if [ -e "/home/AMP/test" ]
 		
 		apt upgrade
 		
-		ampinstmgr upgradeall
+		su - root -c "ampinstmgr upgradeall"
 	
 		su - AMP -c "chown AMP:AMP -R /home/AMP"
 		
