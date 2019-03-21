@@ -6,7 +6,7 @@ PASSWORD=${PASSWORD:-"password"}
 if [ -e "/home/AMP/test" ]
 then
 	echo "Testfile exist"
-	su - root -c "apt-get --only-upgrade install ampinstmgr"
+	exec "/home/Update.sh"
 	su - root -c "ampinstmgr upgradeall & disown"
 	su - AMP -c "chown AMP:AMP -R /home/AMP"
 	su - AMP -c "ampinstmgr startinstance ADS01 & disown"
