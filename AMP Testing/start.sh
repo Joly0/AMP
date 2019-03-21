@@ -16,9 +16,7 @@ if [ -e "/home/AMP/test" ]
 		exec "/home/chown.sh"
 	else
 		echo "Testfile doesn´t exist"
-		su - AMP -c "chown AMP:AMP -R /home/AMP" 
 		su - AMP -c "touch /home/AMP/test"
-		su - AMP -c "chmod 777 /home/AMP/test && chown AMP:AMP /home/AMP/test"
 		su - AMP -c "ampinstmgr quickstart $USERNAME $PASSWORD &"
 		exec "/home/chown.sh"
 fi
