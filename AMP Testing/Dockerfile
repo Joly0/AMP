@@ -19,9 +19,11 @@ COPY start.sh /home/start.sh
 RUN chmod +x /home/start.sh
 COPY chown.sh /home/chown.sh
 RUN chmod +x /home/chown.sh
+COPY update.sh /home/update.sh
+RUN chmod +x /home/update.sh
 
 
-RUN dos2unix /home/start.sh && dos2unix /home/chown.sh
+RUN dos2unix /home/start.sh && dos2unix /home/chown.sh && dos2unix /home/update.sh
 RUN apt-get -qq remove dos2unix gnupg2
 RUN apt-get -qq autoremove
 RUN apt-get -qq autoclean
