@@ -11,11 +11,9 @@ if [ -e "/home/AMP/test" ]
 
 	then
 	
-		apt update
+		apt-get --only-upgrade install atop
 		
-		apt upgrade
-		
-		su - root -c "ampinstmgr upgradeall"
+		su - root -c "ampinstmgr upgradeall & disown"
 	
 		su - AMP -c "chown AMP:AMP -R /home/AMP"
 		
