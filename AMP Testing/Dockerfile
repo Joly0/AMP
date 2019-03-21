@@ -9,7 +9,7 @@ RUN chown AMP:AMP -R /home
 
 RUN mkdir -p /usr/share/man/man1
 RUN apt -qq --no-install-recommends update && apt-get -qq --no-install-recommends install coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
-RUN apt adv --fetch-keys http://repo.cubecoders.com/archive.key
+RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
