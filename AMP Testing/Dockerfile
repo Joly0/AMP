@@ -33,6 +33,8 @@ RUN apt-get -qq autoclean
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 
+VOLUME ["/home"]
+
 EXPOSE 8080
 
 ENTRYPOINT ["/home/start.sh"]
