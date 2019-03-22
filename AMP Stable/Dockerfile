@@ -53,4 +53,4 @@ VOLUME ["/home"]
 
 EXPOSE 8080
 
-ENTRYPOINT ["/home/start.sh"]
+CMD ["/bin/bash", "-c", "set -e && /home/start.sh"] 
