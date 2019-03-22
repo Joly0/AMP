@@ -8,13 +8,14 @@ RUN chown AMP:AMP -R /home
 
 
 RUN mkdir -p /usr/share/man/man1
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install supervisor coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install runit coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
-
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN mkdir /etc/runit && \
+    printf '#!/bin/sh\nexec runsvdir /etc/service\n' > /etc/runit/2 && \
+    chmod o+x /etc/runit/2
 
 
 COPY start.sh /home/start.sh
@@ -34,9 +35,9 @@ RUN apt-get -qq autoclean
 
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-VOLUME ["/etc/supervisor/conf.d"]
+
 VOLUME ["/home"]
 
 EXPOSE 8080
 
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT ["runit"]
