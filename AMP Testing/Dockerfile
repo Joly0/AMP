@@ -47,4 +47,4 @@ VOLUME /home /etc/service/AMP
 
 EXPOSE 8080
 
-CMD ["/bin/bash", "-c", "set -e && /sbin/my_init"]
+CMD ["/sbin/my_init"]
