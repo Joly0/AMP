@@ -6,16 +6,15 @@ ENV LANG C.UTF-8
 RUN useradd -d /home/AMP -m AMP -s /bin/bash
 RUN chown AMP:AMP -R /home
 
-
+RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install runit coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /etc/runit && \
-    printf '#!/bin/sh\nexec runsvdir /etc/service\n' > /etc/runit/2 && \
-    chmod o+x /etc/runit/2
+RUN mkdir -p /etc/service/your_app/
+COPY start.sh /etc/service/your_app/run
 
 
 COPY start.sh /home/start.sh
@@ -40,4 +39,6 @@ VOLUME ["/home"]
 
 EXPOSE 8080
 
-ENTRYPOINT ["runit"]
+COPY runit_bootstrap /usr/sbin/runit_bootstrap
+RUN chmod 755 /usr/sbin/runit_bootstrap
+ENTRYPOINT ["/usr/sbin/runit_bootstrap"]
