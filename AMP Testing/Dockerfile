@@ -16,6 +16,7 @@ RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recom
 
 
 COPY my_init /sbin/my_init
+RUN chmod +x /sbin/my_init
 
 RUN mkdir /etc/service
 RUN mkdir /etc/service/AMP
