@@ -1,6 +1,8 @@
 
 FROM debian:stretch-slim
 
+ENV LANG C.UTF-8
+ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir /usr/share/man/man1 && \
