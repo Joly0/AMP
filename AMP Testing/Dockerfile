@@ -13,8 +13,8 @@ RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /etc/service/your_app/
-COPY start.sh /etc/service/your_app/run
+RUN mkdir -p /etc/service/AMP/
+COPY start.sh /etc/service/AMP/run
 
 
 COPY start.sh /home/start.sh
@@ -34,7 +34,7 @@ RUN apt-get -qq autoclean
 
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-
+VOLUME ["/etc/service/AMP"]
 VOLUME ["/home"]
 
 EXPOSE 8080
