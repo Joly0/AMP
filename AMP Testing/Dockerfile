@@ -8,7 +8,7 @@ RUN chown AMP:AMP -R /home
 
 RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install dumb-init coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless python3.5 gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install dumb-init coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless procps gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
