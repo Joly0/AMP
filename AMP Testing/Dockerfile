@@ -22,7 +22,7 @@ RUN mkdir /etc/service/AMP
 COPY start.sh /home/start.sh
 RUN chmod +x /home/start.sh
 
-RUN ln -s </etc/service/AMP/run> </home/start.sh> 
+RUN ln -s /etc/service/AMP/run /home/start.sh
 
 COPY chown.sh /home/chown.sh
 RUN chmod +x /home/chown.sh
