@@ -40,5 +40,7 @@ if [ -e "/home/AMP/test" ]
 		su - AMP -c "chmod 777 /home/AMP/test && chown AMP:AMP /home/AMP/test"
 		
 		exec "/home/chown.sh"
+
+    echo "chown.sh wurde gestartet"
 		
 fi
