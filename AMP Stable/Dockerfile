@@ -22,6 +22,7 @@ RUN mkdir /usr/share/man/man1 && \
       	dirmngr \
       	apt-transport-https \
       	openjdk-8-jre-headless \
+procps \
       	gnupg2 \
       	dos2unix && \
     apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key && \
