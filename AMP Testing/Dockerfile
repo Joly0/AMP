@@ -26,8 +26,6 @@ RUN chmod +x /etc/service/AMP/run
 COPY start.sh /home/start.sh
 RUN chmod +x /home/start.sh
 
-RUN ln -s /etc/service/AMP/run /home/start.sh
-
 COPY chown.sh /home/chown.sh
 RUN chmod +x /home/chown.sh
 COPY update.sh /home/update.sh
