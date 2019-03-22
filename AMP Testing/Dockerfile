@@ -19,6 +19,10 @@ COPY my_init /sbin/my_init
 
 RUN mkdir /etc/service
 RUN mkdir /etc/service/AMP
+COPY start.sh /etc/service/AMP/run
+RUN chmod +x /etc/service/AMP/run
+
+
 COPY start.sh /home/start.sh
 RUN chmod +x /home/start.sh
 
@@ -30,7 +34,7 @@ COPY update.sh /home/update.sh
 RUN chmod +x /home/update.sh
 
 
-RUN dos2unix /home/start.sh && dos2unix /home/chown.sh && dos2unix /home/update.sh
+RUN dos2unix /home/start.sh && dos2unix /home/chown.sh && dos2unix /home/update.sh && dos2unix /etc/service/AMP/run
 RUN apt-get -qq remove dos2unix gnupg2
 RUN apt-get -qq autoremove
 RUN apt-get -qq autoclean
