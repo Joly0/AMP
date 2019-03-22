@@ -8,17 +8,19 @@ RUN chown AMP:AMP -R /home
 
 RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install runit coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless python3.5 gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /etc/service/AMP/
+
+
+COPY my_init sbin/my_init
+
+RUN mkdir /etc/service/AMP
 COPY start.sh /etc/service/AMP/run
+RUN chmod +x /etc/service/AMP/run
 
-
-COPY start.sh /home/start.sh
-RUN chmod +x /home/start.sh
 COPY chown.sh /home/chown.sh
 RUN chmod +x /home/chown.sh
 COPY update.sh /home/update.sh
@@ -34,11 +36,10 @@ RUN apt-get -qq autoclean
 
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-VOLUME ["/etc/service/AMP"]
-VOLUME ["/home"]
+
+
+VOLUME /home /etc/service/AMP
 
 EXPOSE 8080
 
-COPY runit_bootstrap /usr/sbin/runit_bootstrap
-RUN chmod 755 /usr/sbin/runit_bootstrap
-ENTRYPOINT ["/usr/sbin/runit_bootstrap"]
+CMD ["/sbin/my_init"]
