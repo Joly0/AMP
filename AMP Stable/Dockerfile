@@ -1,9 +1,6 @@
 
 FROM debian:stretch-slim
 
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN mkdir /usr/share/man/man1 && \
@@ -12,6 +9,7 @@ RUN mkdir /usr/share/man/man1 && \
     apt-get -qq update && \
     apt-get -qq --no-install-recommends install \
     	coreutils \
+	locales \
 	tmux \
 	socat \
 	unzip \
@@ -34,6 +32,12 @@ procps \
     apt-get -qq install ampinstmgr --no-install-recommends --install-suggests && \
     apt-get -qq clean && \
     rm -rf /var/lib/apt/lists/*
+
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen  && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
 
 
 COPY start.sh /home/start.sh
