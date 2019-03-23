@@ -5,7 +5,8 @@ PASSWORD=${PASSWORD:-"password"}
 
 if [ -e "/home/AMP/test" ]
 	then
-		/home/update.sh
+		apt-get --only-upgrade install ampinstmgr
+		ampinstmgr upgradeall
 		su - AMP -c "ampinstmgr startinstance ADS01 & disown"
 		exec "/home/chown.sh"
 	else
