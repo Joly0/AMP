@@ -1,9 +1,10 @@
 FROM bitnami/minideb:stretch
 
 ARG DEBIAN_FRONTEND=noninteractive
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
+RUN locale-gen en_US.UTF-8
 
 RUN useradd -d /home/AMP -m AMP -s /bin/bash
 RUN chown AMP:AMP -R /home
