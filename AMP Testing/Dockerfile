@@ -1,22 +1,21 @@
 FROM bitnami/minideb:stretch
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
-RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-RUN echo "LANG=en_US.UTF-8" > /etc/locale.conf
-RUN locale-gen en_US.UTF-8
+
 
 RUN useradd -d /home/AMP -m AMP -s /bin/bash
 RUN chown AMP:AMP -R /home
 
 RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
-RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install dumb-init coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless procps gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
+RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install dumb-init locales coreutils tmux socat unzip git wget libsqlite3-0 ca-certificates lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https openjdk-8-jre-headless procps gnupg2 dos2unix && rm -rf /var/lib/apt/lists/*
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt-get -qq --no-install-recommends update && apt-get -qq --no-install-recommends install ampinstmgr && rm -rf /var/lib/apt/lists/*
 
-
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+RUN dpkg-reconfigure --frontend=noninteractive locales
+RUN update-locale LANG=en_US.UTF-8
 
 
 COPY start.sh /home/start.sh
