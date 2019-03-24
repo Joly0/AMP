@@ -9,8 +9,10 @@ if [ -e "/home/AMP/test" ]
 		ampinstmgr upgradeall
 		su - AMP -c "ampinstmgr startinstance ADS01 & disown"
 		exec "/home/chown.sh"
+		kill -9 2
 	else
 		touch /home/AMP/test
 		su - AMP -c "ampinstmgr quickstart $USERNAME $PASSWORD & disown"
 		exec "/home/chown.sh"
+		kill -9 2
 fi
