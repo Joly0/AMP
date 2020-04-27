@@ -31,7 +31,7 @@ RUN install_packages adoptopenjdk-8-openj9-jre
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt update
-RUN install_packages ampinstmgr -f
+RUN apt-get install ampinstmgr --install-suggests
 
 
 RUN apt -q autoremove --purge
