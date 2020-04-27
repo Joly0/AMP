@@ -48,7 +48,14 @@ RUN ln -s /data /home/AMP/.ampdata
 RUN echo 'if [ -d "/home/AMP/.ampdata/ADS01" ]; then su - AMP -c "ampinstmgr startinstance ADS01 & disown"; exec /bin/bash; else su - AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; exec /bin/bash; fi;' > /home/start.sh
 RUN chmod +x /home/start.sh
 
-EXPOSE 8080
+EXPOSE 8080-8180
+EXPOSE 5678-5688
+EXPOSE 7777-7877
+EXPOSE 21025-21125
+EXPOSE 25565-25665
+EXPOSE 27015-27115
+EXPOSE 28015-28115
+EXPOSE 34197-34297
 
 VOLUME ["/data"]
 
