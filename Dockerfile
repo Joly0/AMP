@@ -1,4 +1,4 @@
-FROM bitnami/minideb:stretch
+FROM debian:9.6-slim
 
 ENV AMPUSER=admin
 ENV AMPPASSWORD=changeme123
@@ -14,7 +14,7 @@ RUN chown AMP:AMP -R /home
 
 RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
-RUN install_packages dumb-init locales cron lib32gcc1 coreutils inetutils-ping tmux socat unzip wget git procps lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https software-properties-common dirmngr apt-transport-https gnupg apt-utils vim
+RUN apt install -y dumb-init locales cron lib32gcc1 coreutils inetutils-ping tmux socat unzip wget git procps lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https software-properties-common dirmngr apt-transport-https gnupg apt-utils vim
 
 RUN export EDITOR=vim
 
@@ -31,7 +31,7 @@ RUN install_packages openjdk-8-jre-headless
 RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
 RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
 RUN apt update
-RUN apt-get install ampinstmgr --install-suggests
+RUN apt install -y ampinstmgr --install-suggests
 
 
 RUN apt -q autoremove --purge
