@@ -23,7 +23,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 RUN dpkg-reconfigure --frontend=noninteractive locales
 RUN update-locale LANG=en_US.UTF-8
 
-RUN install_packages openjdk-8-jre-headless
+RUN apt install -y openjdk-8-jre-headless
 #RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
 #RUN apt-add-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 #RUN install_packages adoptopenjdk-8-openj9-jre
