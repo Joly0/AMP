@@ -14,6 +14,7 @@ RUN chown AMP:AMP -R /home
 
 RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
+RUN apt update
 RUN apt install -y dumb-init locales cron lib32gcc1 coreutils inetutils-ping tmux socat unzip wget git procps lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https software-properties-common dirmngr apt-transport-https gnupg apt-utils vim
 
 RUN export EDITOR=vim
