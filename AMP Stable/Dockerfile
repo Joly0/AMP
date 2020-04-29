@@ -1,4 +1,4 @@
-FROM bitnami/minideb:stretch
+FROM debian:9.6-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
