@@ -63,4 +63,4 @@ EXPOSE 34197-34297
 VOLUME ["/home/AMP"]
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ["/home/start.sh"]
+CMD ["/bin/bash","/home/start.sh"]
