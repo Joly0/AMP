@@ -42,12 +42,12 @@ RUN apt -q autoclean
 RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 RUN su -l AMP -c '(crontab -l ; echo "@reboot ampinstmgr -b")| crontab -'
-RUN mkdir -p /data
-RUN touch /data/empty
-RUN chown AMP:AMP /data
-RUN ln -s /data /home/AMP/.ampdata
+#RUN mkdir -p /data
+#RUN touch /data/empty
+#RUN chown AMP:AMP /data
+#RUN ln -s /data /home/AMP/.ampdata
 
-RUN echo 'if [ -d "/home/AMP/.ampdata/ADS01" ]; then su - AMP -c "ampinstmgr startinstance ADS01 & disown"; exec /bin/bash; else su - AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; exec /bin/bash; fi;' > /home/start.sh
+RUN echo 'if [ -d "/home/AMP/.ampdata/ADS01" ]; then su - AMP -c "ampinstmgr startinstance ADS01 & disown" && exec /bin/bash; else su - AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown" && exec /bin/bash; fi' > /home/start.sh
 RUN chmod +x /home/start.sh
 
 EXPOSE 8080-8180
@@ -59,8 +59,8 @@ EXPOSE 27015-27115
 EXPOSE 28015-28115
 EXPOSE 34197-34297
 
-VOLUME ["/data"]
-
+#VOLUME ["/data"]
+VOLUME ["/home"]
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/home/start.sh"]
