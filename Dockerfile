@@ -52,7 +52,7 @@ RUN su -l AMP -c '(crontab -l ; echo "@reboot ampinstmgr -b")| crontab -'
 #RUN chown AMP:AMP /data
 #RUN ln -s /data /home/AMP/.ampdata
 
-RUN echo 'if [ -d "/home/AMP/.ampdata" ]; then su -l AMP -c "ampinstmgr -b & disown"; else su -l AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; fi' > /home/start.sh
+RUN echo '#!/bin/bash; if [ -d "/home/AMP/.ampdata" ]; then su -l AMP -c "ampinstmgr -b & disown"; else su -l AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; fi' > /home/start.sh
 RUN chmod +x /home/start.sh
 
 EXPOSE 8080-8180
