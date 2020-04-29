@@ -47,7 +47,7 @@ RUN su -l AMP -c '(crontab -l ; echo "@reboot ampinstmgr -b")| crontab -'
 #RUN chown AMP:AMP /data
 #RUN ln -s /data /home/AMP/.ampdata
 
-RUN echo 'if [ -d "/home/AMP/.ampdata/ADS01" ]; then su - AMP -c "ampinstmgr startinstance ADS01 & disown" && exec /bin/bash; else su - AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown" && exec /bin/bash; fi' > /home/start.sh
+RUN echo 'if [ -d "/home/AMP/.ampdata" ]; then su - AMP -c "ampinstmgr -b & disown"; else su - AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; fi' > /home/start.sh
 RUN chmod +x /home/start.sh
 
 EXPOSE 8080-8180
@@ -60,7 +60,7 @@ EXPOSE 28015-28115
 EXPOSE 34197-34297
 
 #VOLUME ["/data"]
-VOLUME ["/home"]
+VOLUME ["/home/AMP"]
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["/home/start.sh"]
