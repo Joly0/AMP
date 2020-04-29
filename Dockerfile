@@ -6,18 +6,23 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TINI_VERSION v0.19.0
 
 
 RUN useradd -d /home/AMP -m AMP -s /bin/bash
 RUN chown AMP:AMP -R /home
 
 
-RUN touch /etc/inittab
 RUN mkdir -p /usr/share/man/man1
 RUN apt update
-RUN apt install -y dumb-init locales cron lib32gcc1 coreutils inetutils-ping tmux socat unzip wget git procps lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https software-properties-common dirmngr apt-transport-https gnupg apt-utils vim
+RUN apt install -y locales cron lib32gcc1 coreutils inetutils-ping tmux socat unzip wget git procps lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https software-properties-common dirmngr apt-transport-https gnupg apt-utils vim
 
 RUN export EDITOR=vim
+
+
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 RUN dpkg-reconfigure --frontend=noninteractive locales
@@ -47,7 +52,7 @@ RUN su -l AMP -c '(crontab -l ; echo "@reboot ampinstmgr -b")| crontab -'
 #RUN chown AMP:AMP /data
 #RUN ln -s /data /home/AMP/.ampdata
 
-RUN echo 'if [ -d "/home/AMP/.ampdata" ]; then su - AMP -c "ampinstmgr -b & disown"; else su - AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; fi' > /home/start.sh
+RUN echo 'if [ -d "/home/AMP/.ampdata" ]; then su -l AMP -c "ampinstmgr -b & disown"; else su -l AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; fi' > /home/start.sh
 RUN chmod +x /home/start.sh
 
 EXPOSE 8080-8180
@@ -62,5 +67,5 @@ EXPOSE 34197-34297
 #VOLUME ["/data"]
 VOLUME ["/home/AMP"]
 
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+ENTRYPOINT ["/tini", "--"]
 CMD ["/bin/bash","/home/start.sh"]
