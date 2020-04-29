@@ -51,8 +51,16 @@ RUN dos2unix /home/start.sh && \
 # Volume to access the scripts and edit them or to Copy files into the Instances
 VOLUME ["/home"]
 
-# Not needed, but expose Port 8080
-EXPOSE 8080
+# Not needed, but expose some Ports
+
+EXPOSE 8080-8180
+EXPOSE 5678-5688
+EXPOSE 7777-7877
+EXPOSE 21025-21125
+EXPOSE 25565-25665
+EXPOSE 27015-27115
+EXPOSE 28015-28115
+EXPOSE 34197-34297
 
 # Set Entrypoint to Dumb-init and run the start script
 ENTRYPOINT ["/usr/bin/dumb-init", "--"] 
