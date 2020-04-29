@@ -39,13 +39,11 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen  && \
     update-locale LANG=en_US.UTF-8
 
 # Copy the scripts and make them executable
-COPY start.sh chown.sh /home/
-RUN  chmod +x /home/start.sh && \
-     chmod +x /home/chown.sh
+COPY start.sh /home/
+RUN  chmod +x /home/start.sh
 
 # Convert the scripts to Unix format, remove dos2unix and gnupg after that and full cleanup of everything
 RUN dos2unix /home/start.sh && \
-    dos2unix /home/chown.sh && \
     apt-get -qq remove --purge dos2unix gnupg2 && \
     apt-get -qq clean && \
     su -c "rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* "
