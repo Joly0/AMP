@@ -3,7 +3,7 @@ FROM debian:10-slim
 EXPOSE 8080
 
 ENV UID=1000
-ENV GID=1000
+ENV GID=100
 
 ENV USERNAME=admin
 ENV PASSWORD=changeme123
@@ -26,7 +26,7 @@ RUN export LANG=en_US.UTF-8 && \
 	dpkg-reconfigure --frontend=noninteractive locales && \
 	update-locale LANG=en_US.UTF-8 && \
 	bash -c "bash <(wget -qO- getamp.sh)" && \
-	chmod +x ./program.sh
+	chmod +x ./program.sh && \
 	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
 	su -c "rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* "
