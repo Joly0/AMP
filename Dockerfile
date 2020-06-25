@@ -22,7 +22,7 @@ RUN export LANG=en_US.UTF-8 && \
 	apt-get update && \
 	apt-get install -y --no-install-suggests wget locales procps apt-utils && \
 	locale-gen en_US.UTF-8 && \
-	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8/' /etc/locale.gen && \
 	dpkg-reconfigure --frontend=noninteractive locales && \
 	update-locale LANG=en_US.UTF-8 && \
 	bash <(wget -qO- getamp.sh) && \
@@ -35,6 +35,4 @@ VOLUME ["/home/amp"]
 
 ENTRYPOINT ["/sbin/init"]
 
-CMD [(su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'") || "./program.sh"]
-	
-
+CMD [su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" || "./program.sh"]
