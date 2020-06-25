@@ -10,10 +10,13 @@ ENV PASSWORD=changeme123
 
 COPY ./program.sh ./program.sh
 
-RUN export LANG=en_US.UTF-8 && \
-	export LANGUAGE=en_US:en && \
-	export LC_ALL=en_US.UTF-8 && \
-	export DEBIAN FRONTEND=noninteractive && \
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+
+
+RUN export DEBIAN FRONTEND=noninteractive && \
 	export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
 	export USE_ANSWERS=1 && \
 	export SKIP_INSTALL=1 && \
@@ -21,9 +24,9 @@ RUN export LANG=en_US.UTF-8 && \
 	mkdir /usr/share/man/man1 && \
 	apt-get update && \
 	apt-get install -y --no-install-suggests wget locales procps apt-utils && \
-	locale-gen en_US.UTF-8 && \
 	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 	dpkg-reconfigure --frontend=noninteractive locales && \
+	locale-gen en_US.UTF-8 && \
 	update-locale LANG=en_US.UTF-8 && \
 	bash -c "bash <(wget -qO- getamp.sh)" && \
 	chmod +x ./program.sh && \
