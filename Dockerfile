@@ -30,7 +30,7 @@ RUN export LANG=en_US.UTF-8 && \
 	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
 	su -c "rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* "
-	
+
 VOLUME ["/home/amp"]
 
 ENTRYPOINT ["/sbin/init"]
