@@ -14,7 +14,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN export DEBIAN FRONTEND=noninteractive && \
 	export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
@@ -25,7 +25,6 @@ RUN export DEBIAN FRONTEND=noninteractive && \
 	apt-get update && \
 	apt-get install -y --no-install-suggests wget locales procps apt-utils && \
 	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
-	locale-gen en_US.UTF-8 && \
 	dpkg-reconfigure --frontend=noninteractive locales && \
 	update-locale LANG=en_US.UTF-8 && \
 	bash -c "bash <(wget -qO- getamp.sh)" && \
