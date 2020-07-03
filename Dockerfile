@@ -4,9 +4,9 @@ EXPOSE 8080
 
 ENV UID=1000
 ENV GID=100
-
 ENV USERNAME=admin
 ENV PASSWORD=changeme123
+
 
 RUN export LANG=en_US.UTF-8 && \
     export LANGUAGE=en_US:en && \
@@ -14,6 +14,7 @@ RUN export LANG=en_US.UTF-8 && \
 	export DEBIAN FRONTEND=noninteractive && \
 	mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp
+	
 	
 RUN	apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
 	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
@@ -49,12 +50,15 @@ RUN wget http://cubecoders.com/Downloads/ampinstmgr.zip && \
 	ln -s /opt/cubecoders/amp/ampinstmgr /usr/local/bin/ampinstmgr
 WORKDIR /
 
+
 COPY entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
+
 
 RUN	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
 	su -c "rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* "
+
 
 VOLUME ["/home/amp"]
 
