@@ -23,7 +23,7 @@ trap 'kill ${!}; my_handler' SIGUSR1
 trap 'kill ${!}; term_handler' SIGTERM
 
 # run application
-node program &
+su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" &
 pid="$!"
 
 # wait forever

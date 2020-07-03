@@ -16,9 +16,7 @@ RUN export LANG=en_US.UTF-8 && \
 	mkdir -p /opt/cubecoders/amp
 	
 
-RUN	apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
-	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
-	apt-get update && \
+RUN	apt-get update && \
 	apt-get install -y --no-install-recommends \
 	sudo \
 	apt-utils \
@@ -36,11 +34,17 @@ RUN	apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/
 	dirmngr \
 	apt-transport-https \
 	ca-certificates \
-	adoptopenjdk-8-openj9 && \
+	gnupg2 && \
 	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 	dpkg-reconfigure --frontend=noninteractive locales && \
 	update-locale LANG=en_US.UTF-8 && \
-	useradd -d /home/amp -m amp -s /bin/bash && \
+	useradd -d /home/amp -m amp -s /bin/bash
+
+
+Run apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
+	apt-get update && \
+	apt-get install -y --no-install-recommends
 	
 	
 WORKDIR /opt/cubecoders/amp
@@ -67,5 +71,3 @@ RUN	apt-get -y clean && \
 VOLUME ["/home/amp"]
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
-
-CMD [su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'"]
