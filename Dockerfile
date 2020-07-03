@@ -8,33 +8,56 @@ ENV GID=100
 ENV USERNAME=admin
 ENV PASSWORD=changeme123
 
-COPY ./program.sh ./program.sh
-
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN export DEBIAN FRONTEND=noninteractive && \
-	export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
-	export USE_ANSWERS=1 && \
-	export SKIP_INSTALL=1 && \
-	export ANSWER_INSTALLJAVA=1 && \
+RUN export LANG=en_US.UTF-8 && \
+    export LANGUAGE=en_US:en && \
+    export LC_ALL=en_US.UTF-8 && \
+	export DEBIAN FRONTEND=noninteractive && \
 	mkdir /usr/share/man/man1 && \
+	mkdir -p /opt/cubecoders/amp
+	
+RUN	apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
+	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
 	apt-get update && \
-	apt-get install -y --no-install-suggests wget locales procps apt-utils && \
+	apt-get install -y --no-install-recommends \
+	sudo \
+	apt-utils \
+	tmux \
+	socat \
+	unzip \
+	git \
+	wget \
+	locales \
+	lib32gcc1 \
+	coreutils \
+	iputils-ping \
+	procps \
+	software-properties-common \
+	dirmngr \
+	apt-transport-https \
+	ca-certificates \
+	adoptopenjdk-8-openj9 && \
 	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
 	dpkg-reconfigure --frontend=noninteractive locales && \
 	update-locale LANG=en_US.UTF-8 && \
-	bash -c "bash <(wget -qO- getamp.sh)" && \
-	chmod +x ./program.sh && \
-	apt-get -y clean && \
+	useradd -d /home/amp -m amp -s /bin/bash && \
+	
+	
+WORKDIR /opt/cubecoders/amp
+RUN wget http://cubecoders.com/Downloads/ampinstmgr.zip && \
+	unzip ampinstmgr.zip && \
+	rm -rf ampinstmgr.zip && \
+	ln -s /opt/cubecoders/amp/ampinstmgr /usr/local/bin/ampinstmgr
+WORKDIR /
+
+COPY entrypoint.sh /opt/entrypoint.sh
+RUN chmod +x /opt/entrypoint.sh
+
+RUN	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
 	su -c "rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* "
 
 VOLUME ["/home/amp"]
 
-ENTRYPOINT ["/sbin/init"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
-CMD [su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" || "./program.sh"]
+CMD [su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'"]
