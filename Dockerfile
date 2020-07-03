@@ -44,7 +44,7 @@ RUN	apt-get update && \
 Run apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
 	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends
+	apt-get install -y --no-install-recommends adoptopenjdk-8-openj9
 	
 	
 WORKDIR /opt/cubecoders/amp
