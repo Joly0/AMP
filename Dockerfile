@@ -7,10 +7,6 @@ ENV GID=100
 ENV USERNAME=admin
 ENV PASSWORD=changeme123
 
-<<<<<<< HEAD
-=======
-COPY ./program.sh ./program.sh
->>>>>>> 96d605719a22c3d199711de870b2608319561045
 
 RUN export LANG=en_US.UTF-8 && \
     export LANGUAGE=en_US:en && \
@@ -19,10 +15,7 @@ RUN export LANG=en_US.UTF-8 && \
 	mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp
 	
-<<<<<<< HEAD
-	
-=======
->>>>>>> 96d605719a22c3d199711de870b2608319561045
+
 RUN	apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
 	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
 	apt-get update && \
@@ -57,17 +50,15 @@ RUN wget http://cubecoders.com/Downloads/ampinstmgr.zip && \
 	ln -s /opt/cubecoders/amp/ampinstmgr /usr/local/bin/ampinstmgr
 WORKDIR /
 
-<<<<<<< HEAD
 
 COPY entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
 
-=======
 COPY entrypoint.sh /opt/entrypoint.sh
 RUN chmod +x /opt/entrypoint.sh
 
->>>>>>> 96d605719a22c3d199711de870b2608319561045
+
 RUN	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
 	su -c "rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/* "
