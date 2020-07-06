@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set +x
+
 pid="0"
 
 handle_signal() {
