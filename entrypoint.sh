@@ -1,33 +1,21 @@
-#!/usr/bin/env bash
-set -x
+#!/bin/bash
 
-pid=0
+set +x
+pid="0"
 
-# SIGUSR1 -handler
-my_handler() {
-  echo "my_handler"
-}
-
-# SIGTERM -handler
-term_handler() {
-  if [ $pid -ne 0 ]; then
-    kill -SIGTERM "$pid"
-    wait "$pid"
+handle_signal() {
+  echo "Signal!"
+  if [ "x${pid}" != "x0" ]; then
+    kill -SIGTERM "${pid}"
+    wait "${pid}"
   fi
-  exit 143; # 128 + 15 -- SIGTERM
+  exit 0
 }
 
-# setup handlers
-# on callback, kill the last background process, which is `tail -f /dev/null` and execute the specified handler
-trap 'kill ${!}; my_handler' SIGUSR1
-trap 'kill ${!}; term_handler' SIGTERM
+trap 'handle_signal' SIGINT SIGTERM SIGHUP SIGUSR1 SIGUSR2
 
-# run application
 su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" &
-pid="$!"
 
-# wait forever
-while true
-do
-  tail -f /dev/null & wait ${!}
-done
+"$@" &
+pid="${!}"
+wait "${pid}"
