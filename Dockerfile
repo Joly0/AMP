@@ -1,59 +1,21 @@
-FROM debian:9.6-slim
+FROM debian:10-slim as base
 
-ENV AMPUSER=admin
-ENV AMPPASSWORD=changeme123
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TINI_VERSION v0.19.0
-
-
-RUN useradd -d /home/AMP -m AMP -s /bin/bash
-RUN chown AMP:AMP -R /home
-
-
-RUN mkdir -p /usr/share/man/man1
-RUN apt update
-RUN apt install -y locales cron lib32gcc1 coreutils inetutils-ping tmux socat unzip wget git procps lib32gcc1 lib32stdc++6 software-properties-common dirmngr apt-transport-https software-properties-common dirmngr apt-transport-https gnupg apt-utils vim
-
-RUN export EDITOR=vim
-
-
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-RUN chmod +x /tini
-
-
-RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-RUN dpkg-reconfigure --frontend=noninteractive locales
-RUN update-locale LANG=en_US.UTF-8
-
-RUN apt install -y openjdk-8-jre-headless
-#RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
-#RUN apt-add-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-#RUN install_packages adoptopenjdk-8-openj9-jre
-
-
-RUN apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key
-RUN apt-add-repository "deb http://repo.cubecoders.com/ debian/"
-RUN apt update
-RUN apt install -y ampinstmgr --install-suggests
-
-
-RUN apt -q autoremove --purge
-RUN apt -q autoclean
-
-
-RUN rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
-
-RUN su -l AMP -c '(crontab -l ; echo "@reboot ampinstmgr -b")| crontab -'
-#RUN mkdir -p /data
-#RUN touch /data/empty
-#RUN chown AMP:AMP /data
-#RUN ln -s /data /home/AMP/.ampdata
-
-RUN echo '#!/bin/bash; if [ -d "/home/AMP/.ampdata" ]; then su -l AMP -c "ampinstmgr -b & disown"; else su -l AMP -c "ampinstmgr quickstart $AMPUSER $AMPPASSWORD & disown"; fi' > /home/start.sh
-RUN chmod +x /home/start.sh
+RUN export LANG=en_US.UTF-8 && \
+    export LANGUAGE=en_US:en && \
+    export LC_ALL=en_US.UTF-8 && \
+    export DEBIAN_FRONTEND=noninteractive && \
+	apt-get update && \
+	apt-get install -y --no-install-recommends systemd locales && \
+	sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8 && \
+	apt-get -y clean && \
+	apt-get -y autoremove --purge && \
+	rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+	
+ENTRYPOINT [ "/sbin/init" ]
+	
+FROM base
 
 EXPOSE 8080-8180
 EXPOSE 5678-5688
@@ -64,8 +26,20 @@ EXPOSE 27015-27115
 EXPOSE 28015-28115
 EXPOSE 34197-34297
 
-#VOLUME ["/data"]
-VOLUME ["/home/AMP"]
+ENV ANSWER_AMPUSER=admin
+ENV ANSWER_AMPPASS=changeme123
 
-ENTRYPOINT ["/tini", "--"]
-CMD ["/bin/bash","/home/start.sh"]
+RUN	export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
+    export USE_ANSWERS=1 && \
+    export SKIP_INSTALL=1 && \
+	export ANSWER_INSTALLJAVA=1 && \
+    mkdir /usr/share/man/man1 && \
+    bash -c "bash <(wget -qO- getamp.sh)" && \
+    apt-get clean && \
+	apt-get -y autoremove --purge && \
+    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+
+VOLUME ["/home/amp"]
+
+CMD [ (su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}') || bash || tail -f /dev/null ]
+	
