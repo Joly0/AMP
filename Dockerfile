@@ -36,8 +36,8 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
     export USE_ANSWERS=1 && \
     export SKIP_INSTALL=1 && \
     export ANSWER_INSTALLJAVA=1 && \
-    mkdir /usr/share/man/man1 && \
-    bash -c "bash <(wget -qO- getamp.sh)" && \
+    mkdir /usr/share/man/man1
+RUN bash -c "bash <(wget -qO- getamp.sh)" && \
     apt-get clean && \
     apt-get -y autoremove --purge && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
@@ -45,4 +45,3 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
 VOLUME ["/home/amp"]
 
 CMD [ (su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}') || bash || tail -f /dev/null ]
-	
