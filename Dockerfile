@@ -7,8 +7,7 @@ RUN export LANG=en_US.UTF-8 && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
     systemd \
-    locales \
-    wget && \
+    locales && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8 && \
@@ -35,6 +34,8 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
     export SKIP_INSTALL=1 && \
     export ANSWER_INSTALLJAVA=1 && \
     mkdir /usr/share/man/man1 && \
+	apt-get update && \
+    apt-get install -y --no-install-suggests wget procps && \
 	bash -c "bash <(wget -qO- getamp.sh )" && \
     apt-get clean && \
     apt-get -y autoremove --purge && \
