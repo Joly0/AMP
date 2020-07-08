@@ -10,6 +10,7 @@ RUN export LANG=en_US.UTF-8 && \
     locales && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
+	locale-gen && \
     update-locale LANG=en_US.UTF-8 && \
     apt-get -y clean && \
     apt-get -y autoremove --purge && \
