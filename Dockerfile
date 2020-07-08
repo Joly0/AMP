@@ -4,15 +4,25 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y \
     systemd \
+	systemd-sysv \
     locales && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8 && \
     apt-get -y clean && \
     apt-get -y autoremove --purge && \
-    rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+    rm -rf /tmp/* \
+	/var/lib/apt/lists/* \
+	/var/tmp/* \
+	/lib/systemd/system/multi-user.target.wants/* \
+    /etc/systemd/system/*.wants/* \
+    /lib/systemd/system/local-fs.target.wants/* \
+    /lib/systemd/system/sockets.target.wants/*udev* \
+    /lib/systemd/system/sockets.target.wants/*initctl* \
+    /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup* \
+    /lib/systemd/system/systemd-update-utmp*
 	
-ENTRYPOINT [ "/sbin/init" ]
+CMD ["/lib/systemd/systemd"]
 
 FROM amp-base-image
 
