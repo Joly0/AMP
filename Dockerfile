@@ -1,4 +1,5 @@
 FROM debian:10-slim
+LABEL maintainer="Joly0"
 
 EXPOSE 8080
 
@@ -6,17 +7,17 @@ ENV UID=1000
 ENV GID=100
 ENV USERNAME=admin
 ENV PASSWORD=changeme123
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
 
 COPY entrypoint.sh /opt/entrypoint.sh
 
-RUN	export LANG=en_US.UTF-8 && \
-	export LANGUAGE=en_US:en && \
-	export LC_ALL=en_US.UTF-8 && \
-	export DEBIAN FRONTEND=noninteractive && \
+RUN	export DEBIAN FRONTEND=noninteractive && \
 	mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends \
+	apt-get install -y --no-install-recommends --no-install-suggests \
 	apt-utils \
 	tmux \
 	socat \
@@ -25,8 +26,10 @@ RUN	export LANG=en_US.UTF-8 && \
 	wget \
 	locales \
 	lib32gcc1 \
+	libcurl4 \
+	lib32stdc++6 \
+	lib32tinfo6 \
 	coreutils \
-	iputils-ping \
 	procps \
 	software-properties-common \
 	dirmngr \
@@ -41,7 +44,7 @@ RUN	export LANG=en_US.UTF-8 && \
 	apt-key adv --fetch-keys https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public && \
 	add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends adoptopenjdk-8-openj9 && \
+	apt-get install -y --no-install-recommends --no-install-suggests adoptopenjdk-8-openj9 && \
 	wget -P /opt/cubecoders/amp http://cubecoders.com/Downloads/ampinstmgr.zip && \
 	unzip /opt/cubecoders/amp/ampinstmgr.zip && \
 	rm -rf /opt/cubecoders/amp/ampinstmgr.zip && \
@@ -49,7 +52,9 @@ RUN	export LANG=en_US.UTF-8 && \
 	chmod +x /opt/entrypoint.sh && \
 	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
-	rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+	rm -rf /tmp/* \
+	/var/lib/apt/lists/* \
+	/var/tmp/*
 
 VOLUME ["/home/amp"]
 
