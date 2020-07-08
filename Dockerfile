@@ -42,7 +42,7 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
 	apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key && \
 	apt-add-repository "deb http://repo.cubecoders.com/ debian/" && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends ampinstmgr  \
+	apt-get install -y --no-install-recommends ampinstmgr && \
     apt-get clean && \
     apt-get -y autoremove --purge && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
