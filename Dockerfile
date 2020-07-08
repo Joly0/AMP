@@ -2,7 +2,7 @@ FROM debian:10-slim AS amp-base-image
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
     systemd \
     locales && \
     sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
