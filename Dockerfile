@@ -38,11 +38,11 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
     export ANSWER_INSTALLJAVA=1 && \
     mkdir /usr/share/man/man1 && \
     apt-get update && \
-    apt-get install -y --no-install-recommends wget procps software-properties-common dirmngr apt-transport-https iptables-persistent && \
+    apt-get install -y --no-install-recommends wget procps software-properties-common dirmngr apt-transport-https iptables-persistent gnupg2 && \
 	apt-key adv --fetch-keys http://repo.cubecoders.com/archive.key && \
 	apt-add-repository "deb http://repo.cubecoders.com/ debian/" && \
 	apt-get update && \
-	apt-get install ampinstmgr  \
+	apt-get install -y --no-install-recommends ampinstmgr  \
     apt-get clean && \
     apt-get -y autoremove --purge && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
