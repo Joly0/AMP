@@ -11,6 +11,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get -y clean && \
     apt-get -y autoremove --purge && \
     rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
+	
+ENTRYPOINT [ "/sbin/init" ]
 
 FROM amp-base-image
 
@@ -36,7 +38,7 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
     export ANSWER_INSTALLJAVA=1 && \
     mkdir /usr/share/man/man1 && \
     apt-get update && \
-    apt-get install -y --no-install-suggests wget procps && \
+    apt-get install -y --no-install-recommends wget procps && \
     bash -c "bash <(wget -qO- getamp.sh )" && \
     apt-get clean && \
     apt-get -y autoremove --purge && \
@@ -44,5 +46,4 @@ RUN export ANSWER_SYSPASSWORD=$(cat /proc/sys/kernel/random/uuid) && \
 
 VOLUME ["/home/amp"]
 
-ENTRYPOINT [ "/sbin/init" ]
 CMD [ (su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}') || bash || tail -f /dev/null ]
