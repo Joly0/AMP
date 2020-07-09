@@ -10,12 +10,13 @@ ENV PASSWORD=changeme123
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+ENV TINI_VERSION v0.19.0
 
-ADD https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude='./bin' && tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin && \
-	mkdir /usr/share/man/man1 && \
+RUN mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp && \
+	chmod +x /tini &&\
 	apt-get update && \
 	apt-get install -y --no-install-recommends --no-install-suggests \
 	apt-utils \
@@ -58,5 +59,5 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude='./bin' && tar xzf /tmp/
 
 VOLUME ["/home/amp"]
 
-ENTRYPOINT [ "/init" ]
-CMD [ su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" ]
+ENTRYPOINT ["/tini", "--"]
+CMD [ (su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}' && ampinstmgr view ADS true") || bash || tail -f /dev/null ]
