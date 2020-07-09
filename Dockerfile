@@ -11,9 +11,9 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
-COPY entrypoint.sh /opt/entrypoint.sh
+ADD https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-amd64.tar.gz /tmp/
 
-RUN	export DEBIAN FRONTEND=noninteractive && \
+RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude='./bin' && tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin && \
 	mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp && \
 	apt-get update && \
@@ -49,13 +49,14 @@ RUN	export DEBIAN FRONTEND=noninteractive && \
 	unzip /opt/cubecoders/amp/ampinstmgr.zip && \
 	rm -rf /opt/cubecoders/amp/ampinstmgr.zip && \
 	ln -s /opt/cubecoders/amp/ampinstmgr /usr/local/bin/ampinstmgr && \
-	chmod +x /opt/entrypoint.sh && \
 	apt-get -y clean && \
 	apt-get -y autoremove --purge && \
-	rm -rf /tmp/* \
+	rm -rf \
+	/tmp/* \
 	/var/lib/apt/lists/* \
 	/var/tmp/*
 
 VOLUME ["/home/amp"]
 
-ENTRYPOINT ["/opt/entrypoint.sh"]
+ENTRYPOINT [ "/init" ]
+CMD [ su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" ]
