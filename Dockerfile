@@ -15,6 +15,7 @@ COPY start.sh /opt/start.sh
 
 RUN mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp && \
+	chmod +x /opt/entrypoint.sh && \
 	apt-get update && \
 	apt-get install -y --no-install-recommends --no-install-suggests \
 		apt-utils \
