@@ -47,7 +47,7 @@ RUN mkdir /usr/share/man/man1 && \
 	apt-get update && \
 	apt-get install -y --no-install-recommends --no-install-suggests adoptopenjdk-8-openj9 && \
 	wget -P /opt/cubecoders/amp http://cubecoders.com/Downloads/ampinstmgr.zip && \
-	unzip /opt/cubecoders/amp/ampinstmgr.zip && \
+	unzip /opt/cubecoders/amp/ampinstmgr.zip -d /opt/cubecoders/amp && \
 	rm -rf /opt/cubecoders/amp/ampinstmgr.zip && \
 	ln -s /opt/cubecoders/amp/ampinstmgr /usr/local/bin/ampinstmgr && \
 	apt-get -y clean && \
