@@ -56,5 +56,5 @@ RUN mkdir /usr/share/man/man1 && \
 
 VOLUME ["/home/amp"]
 
-ENTRYPOINT [ "/usr/bin/tini" ]
-CMD [ "(su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}' && ampinstmgr view ADS true") || /bin/bash || tail -f /dev/null" ]
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+CMD [ "su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}' && ampinstmgr view ADS true"" ]
