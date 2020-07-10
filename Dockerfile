@@ -13,6 +13,7 @@ ENV LC_ALL en_US.UTF-8
 
 COPY start.sh /opt/start.sh
 
+
 RUN mkdir /usr/share/man/man1 && \
 	mkdir -p /opt/cubecoders/amp && \
 	chmod +x /opt/start.sh && \
