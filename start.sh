@@ -1,3 +1,4 @@
 #!/bin/bash
 
-exec su -l amp -c "ampinstmgr quick '${ANSWER_AMPUSER}' '${ANSWER_AMPPASS}'" || bash || tail -f /dev/null
+su - l amp -c "ampinstmgr upgradeall"
+exec su -l amp -c "ampinstmgr quick '${USERNAME}' '${PASSWORD}'" || bash || tail -f /dev/null
