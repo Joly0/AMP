@@ -6,6 +6,7 @@ pid=0
 # SIGTERM-handler
 term_handler() {
   if [ $pid -ne 0 ]; then
+    su -l amp -c "ampinstmgr -o"
     kill -SIGTERM "$pid"
     wait "$pid"
   fi
